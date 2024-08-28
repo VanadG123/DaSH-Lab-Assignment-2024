@@ -1,3 +1,5 @@
+1) Developemnt Assignment
+
 INPUTS: input.txt is a text file containing one prompt on each line
 
 OUTPUTS : The Python script outputs a json file titled "output.json" with the following format
