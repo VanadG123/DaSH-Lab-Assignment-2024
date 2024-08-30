@@ -71,3 +71,42 @@ Once the next word is predicted:
 
 	•	Appending the Word: The predicted word is added to the input sequence, making the sequence now 51 words long.
 	•	Iterative Process: If you want to predict multiple words, the process repeats. The model takes the updated sequence (now with 51 words), processes it through all the layers again, and predicts the 52nd word, and so on.
+
+## A GOOD EXAMPLE TO UNDERSTAND SELF-ATTENTION MECHANISM
+
+ Consider the sentence: “The cat sat on the mat.”
+
+ 	1.	Query Vector (Q): The Query vector represents the current word or token that the model is focusing on. For example, if the model is currently processing the word “cat,” the Query vector will encode what the model wants to know about “cat” in relation to the other words in the sentence.
+	2.	Key Vector (K): The Key vector is generated for every word in the sentence. It acts like a descriptor that other tokens use to determine how relevant this word is to their current focus. For example, if the current word is “cat,” it will compare its Query vector with the Key vectors of other words (like “The” and “sat”) to figure out how much attention to give to each word.
+	3.	Value Vector (V): The Value vector is the actual information or “content” associated with each word. Once the attention mechanism has determined which words are important (based on the Query-Key comparison), the Value vectors of those words are combined to form the final output.
+
+	Step 1: Generate Query, Key, and Value Vectors
+	For the word “cat”:
+	The model generates a Query vector (Q) for “cat.”
+	It also generates Key (K) and Value (V) vectors for every word in the sentence, including “The,” “sat,” “on,” “the,” and “mat.”
+	Step 2: Compare Query with Keys
+	The model compares the Query vector for “cat” with the Key vectors of every other word in the sentence. This comparison is usually done by taking the dot product between the Query and each Key.
+	For example:
+	Query(“cat”) ⋅ Key(“The”)
+	Query(“cat”) ⋅ Key(“sat”)
+	Query(“cat”) ⋅ Key(“on”)
+	Query(“cat”) ⋅ Key(“the”)
+	Query(“cat”) ⋅ Key(“mat”)
+	These comparisons result in attention scores, which indicate how much attention “cat” should pay to each word in the sentence.
+	Step 3: Apply Attention to Value Vectors
+	The attention scores from Step 2 are used to weigh the Value vectors of each word. The Value vector contains the actual content or information that will be passed on to the next layer.
+	If the attention score between “cat” and “sat” is high, the Value vector for “sat” will have a greater influence on the final output.
+	Step 4: Combine the Value Vectors
+	The model takes the weighted sum of the Value vectors based on the attention scores. This combined vector becomes the new representation of the word “cat,” enriched with information from the surrounding words.
+
+Breaking Down the Differences:
+
+	•	Key Vector (K): Think of this as a description of what each word is about. It’s used to determine how relevant a word is to the current word being processed (e.g., “cat”).
+	•	Example: If “sat” has a Key vector that is very similar to the Query vector for “cat,” the model will conclude that “sat” is important for understanding “cat.”
+	•	Value Vector (V): This is the actual information that gets passed along. Once the model decides that “sat” is important for understanding “cat,” it will use the Value vector of “sat” to modify the representation of “cat.”
+	•	Example: If the Value vector of “sat” contains information about the action, that information will be incorporated into the final representation of “cat.”
+
+Final Recap:
+
+	•	Key (K): Used to measure relevance. It helps the model decide which other words to pay attention to.
+	•	Value (V): Contains the information that will be passed along. Once relevance is determined, the Value vector is used to update the word representation.
