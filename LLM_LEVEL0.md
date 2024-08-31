@@ -110,3 +110,22 @@ Final Recap:
 
 	•	Key (K): Used to measure relevance. It helps the model decide which other words to pay attention to.
 	•	Value (V): Contains the information that will be passed along. Once relevance is determined, the Value vector is used to update the word representation.
+
+## KV CACHE
+
+When you're interacting with a large language model (LLM), the model doesn't just think about the current word or sentence— it remembers everything that's been said before in the conversation. This memory is essential because the model uses it to understand context and generate appropriate responses. In technical terms, this memory is stored in KV Cache, So, as the conversation gets longer, the amount of information the model needs to store keeps growing, and this requires more and more memory. There have been some different approaches used to tackle this challenges of high memory demand and resource management in large language models (LLMs). A few of them being: 
+
+### Orca’s Iteration-Level Scheduling
+When LLMs process multiple requests at once, they often group these requests into a "batch." In traditional systems, even if one request in the batch finishes early, the resources assigned to it (like GPU memory or processing power) can't be used for anything else until the entire batch is done. This leads to resource retention—resources are held up and wasted because they're waiting for the slower requests in the same batch to finish. Orca introduces a smarter way to handle this called iteration-level scheduling.
+
+Dynamic Batch Updates: Instead of sticking to the same batch from start to finish, Orca checks the status of each request after every iteration. If a request completes its task (or finishes generating a response), Orca removes it from the batch. This way, the system isn’t holding onto resources that are no longer needed for that request.
+
+Resource Reallocation: Once a request finishes, the resources (like memory and processing power) that were allocated to it are immediately freed up. Orca can then reallocate these resources to other tasks or requests that still need more processing.
+
+### vLLM’s PagedAttention
+In traditional systems, memory is often allocated in the form of large, contiguous memory blocks which is like a single large sheet of paper where all the memory is stored sequentialy,this leads to certain technical challenges such as Fragmentation where Fragmentation occurs when you have free space scattered throughout the memory that is too small to be useful. It is like having small gaps in your sheet of paper that you can’t use efficiently because they’re not big enough to fit the new data. This leads to inefficient use of memory. It also leads leads to Allocation Overhead where allocating large, contiguous blocks of memory can become increasingly difficult as memory usage grows. If your system’s memory is heavily fragmented, finding a large enough block to store new data becomes challenging, leading to potential delays and increased overhead in managing memory. 
+vLLM's PagedAttention uses a different approach by breaking memory into smaller, fixed-size blocks called pages. By breaking memory into smaller, uniform pages and allocating these pages only when necessary, PagedAttention ensures that memory is used efficiently and effectively, reducing waste and improving the overall performance of the system. This approach is particularly valuable when dealing with the high and growing memory demands of long conversations or multiple simultaneous requests. 
+
+### multi-query and groupquery attention
+In traditional systems, every time the model thinks about a new word (token), it stores a lot of information (KV Cache). This can lead to huge memory demands as more words are added.
+Multi-Query and Group-Query Attention are like smarter note-taking methods. Instead of writing down a ton of details for each word, they find ways to summarize or group information so that the notes (KV Cache) take up less space. This reduces the amount of memory needed without losing important details, making the whole process more efficient.
