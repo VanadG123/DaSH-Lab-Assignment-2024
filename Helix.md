@@ -13,10 +13,10 @@ When we use large language models (LLMs), they are so big that they can't fit on
 Because LLMs are too big for one GPU, we need to split them up and spread the work across multiple GPUs.
 
 There are two main techniques to do this:
-1) Tensor Model Parallelism: This is like taking a big math problem and dividing it into smaller chunks. Each chunk is then handled by a different GPU. Think of it like a group of people working together
-   on a large puzzle—each person focuses on their own section of the puzzle.
-2) Pipeline Model Parallelism: This is a bit like an assembly line in a factory. The model is broken into different stages, and each stage is handled by a different GPU. The data flows from one GPU to the
-   next, similar to how a product moves along the assembly line, with each stage adding something new.
+1) Tensor Model Parallelism: This is like taking a big math problem and dividing it into smaller chunks. Each chunk is then handled by a different GPU. Think of it like a group of people working together on a large puzzle—each person focuses on their own section of the puzzle. This requires network connectivity between the different GPUs to be really high and so, it's most often used only when GPUs are present within the same node.
+   
+2) Pipeline Model Parallelism: This is a bit like an assembly line in a factory. The model is broken into different stages, and each stage is handled by a different GPU. The data flows from one GPU to the next, similar to how a product moves along the assembly line, with each stage adding something new.  The problem with this arrises when one GPU finishes its work quickly and has to wait for the next GPU to catch up, creating a gap in the assembly line, called a "pipeline bubble." and this is becoming more of a problem due to the varying capabilities of the
+GPU models and the shortage of the latest generation GPUs. This leads to serving LLM with heterogeneous devices as acritical demand, which is not well studied in previous efforts.
 
 Model Placement: This is the process of deciding which part of the model should go on which GPU. It's like planning who does which task in a team so that the work gets done efficiently.
 
