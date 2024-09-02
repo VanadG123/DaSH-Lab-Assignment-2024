@@ -49,5 +49,14 @@ Digit 8: 0.25
 Digit 5: 0.15
 With temperature scaling, the predictions are less confident. Now, when the student model learns, it pays more attention to the similarities between "3", "8", and "5", which helps it understand that these digits can look somewhat similar and improve its ability to classify them correctly. Thus, By softening the probabilities, the student model learns from a broader range of possibilities, which can improve its performance on new, unseen data.
 
+## Solution: Knowledge Preservation
 
+To address the data heterogeneity issue, researchers have introduced the idea of knowledge preservation. This concept helps correct the direction of local updates, making them more aligned with the overall global model’s direction.
+
+They measure how different these local updates are using a concept called gradient diversity. If all clients' updates are very similar, gradient diversity is low; if they differ a lot, gradient diversity is high. By preserving knowledge from data that isn’t specific to any one client (out-local distribution), the updates become more aligned, reducing gradient diversity and helping the model learn more effectively and represents a more global model, despite the differences in data across clients.
+
+## FedNTD: Working
+
+When a model is trained on data from a single client, it might become very good at predicting the true class for that client’s data but may lose general knowledge about the other classes (not-true classes). This issue is particularly problematic in federated learning, where each client might have a different distribution of data (e.g., one client has mostly images of cats, another has mostly dogs).
+The solution fo this is that FedNTD considers along with cross entropy loss, another type of loss called Not-True Distillation Loss (LNTD) which is designed to maintain and preserve the knowledge about the not-true classes (e.g., "Dog" and "Rabbit" in the previous example) while the model is trained locally on each client. It does this by comparing the client model's probability predictions for the not-true classes with the global model's predictions for those same classes. The goal is to make sure that the client model doesn't drift too far from what the global model knows about these not-true classes and retains the knowledge it has about those classes and it does so by penlising the client model if the predictions for the not-true classes are too different from the global model’s predictions.
 
