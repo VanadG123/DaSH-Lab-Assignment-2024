@@ -22,7 +22,16 @@ state, we want our model to remember how to do every task well.
 
 Something similar is experienced in Federated Learning Based Systems,  As the global model is updated round after round with data from different devices, the underlying data distributions might change significantly.
 This change can cause the global model to forget important information from previous rounds, just like in continual learning. Researchers even observed that after a few rounds of updating 
-the model started predicting wrongly for a class of data which it was earlier predicting well. 
+the model started predicting wrongly for a class of data which it was earlier predicting well. This happens because the model forgets important information as it learns from new data
+from different devices. 
+
+## Knowledge Distillation 
+
+It's a technique to make a simpler model (called the Student Model) learn from a more complicated model (called the Teacher Model). The student model's learning is guided by two main factors:
+#### Cross-Entropy Loss (LCE): This is a standard way of measuring how well the model is predicting the right class.
+#### Kullback-Leibler Divergence Loss (LKL): This measures how well the student model’s softened probabilities match the teacher’s.
+
+
 
 
 
