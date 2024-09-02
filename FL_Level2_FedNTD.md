@@ -31,7 +31,23 @@ It's a technique to make a simpler model (called the Student Model) learn from a
 #### Cross-Entropy Loss (LCE): This is a standard way of measuring how well the model is predicting the right class.
 #### Kullback-Leibler Divergence Loss (LKL): This measures how well the student model’s softened probabilities match the teacher’s.
 
+The student model doesn't merely try to mimic the Teacher Model's answers, rather it tries to copy the soft probabilities of the teacher, which we get through a technique called temperatrue scaling. 
 
+### Temperature Scaling 
+
+Imagine you have a teacher model trained on the MNIST dataset, which contains images of handwritten digits (0-9).
+
+Teacher’s Prediction (Without Scaling):
+Digit 3: 0.98
+Digit 8: 0.01
+Digit 5: 0.01
+The teacher is very confident that the digit is "3".
+
+Teacher’s Prediction (With Temperature Scaling, τ = 2):
+Digit 3: 0.60
+Digit 8: 0.25
+Digit 5: 0.15
+With temperature scaling, the predictions are less confident. Now, when the student model learns, it pays more attention to the similarities between "3", "8", and "5", which helps it understand that these digits can look somewhat similar and improve its ability to classify them correctly. Thus, By softening the probabilities, the student model learns from a broader range of possibilities, which can improve its performance on new, unseen data.
 
 
 
